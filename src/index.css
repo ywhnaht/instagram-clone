@@ -11,6 +11,16 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+img {
+    width: inherit;
+    height: inherit;
+}
+
+label {
+    color: inherit;
+    font-size: 14px;
+}
+
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
         monospace;

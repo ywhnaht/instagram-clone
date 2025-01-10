@@ -59,7 +59,7 @@ function LeftSideBar() {
 
     return (
         <div className="left-sidebar w-full p-4 border-r">
-            <div className="my-8 mx-2">
+            <div className="my-8 px-2">
                 <LogoText />
             </div>
             {menuItems.map((item) => (

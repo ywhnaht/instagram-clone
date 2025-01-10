@@ -6,10 +6,13 @@ const Home = () => {
     return (
         <main className="flex flex-1 flex-grow-1 flex-col items-center justify-center h-screen">
             <div className="flex justify-center w-full items-stretch flex-row">
-                <div className="max-w-2xl w-full ml-36">
+                {/* New Feed */}
+                <div className="flex-grow w-full max-w-2xl">
                     <NewFeed />
                 </div>
-                <div className="flex-1 pl-16 max-w-96">
+
+                {/* Right Sidebar */}
+                <div className="flex-1 pl-16 w-96">
                     <RightSideBar />
                 </div>
             </div>

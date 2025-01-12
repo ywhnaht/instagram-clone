@@ -1,24 +1,37 @@
 import { Avatar } from '../ui/avatar';
-import { defineStyle } from '@chakra-ui/react';
 
-const ringCss = defineStyle({
-    outlineWidth: "2px",
-    outlineColor: "colorPalette.500",
-    outlineOffset: "2px",
-    outlineStyle: "solid",
-    margin: "7px",
-    width: "3.5rem",
-    height: "3.5rem"
-  })
+function StoryItem({ avatar, username, storyId, status, onClick, ...props }) {
 
-function StoryItem({ avatar, name, status }) {
     return (
-        <Avatar
-            // name={name}
-            colorPalette="pink"
-            src={avatar}
-            css={ringCss}
-        />
+        <div
+            className="flex flex-col justify-center items-center cursor-pointer"
+            onClick={onClick}
+            {...props}
+        >
+            <div
+                className={`p-0.5 items-center inline-flex justify-center w-[62px] h-[62px] m-1 rounded-full ${
+                    status
+                        ? 'bg-gray-200'
+                        : 'bg-gradient-to-br from-pink-500 to-orange-400'
+                }`}
+            >
+                <Avatar
+                    src={avatar}
+                    className={`rounded-full size-full border-2 border-solid border-white`}
+                />
+            </div>
+            <span
+                className={`text-xs ${status ? 'text-gray-500' : ''} max-w-[60px] block truncate`}
+                // style={{
+                //     display: 'block', // Bắt buộc để giới hạn width hiệu quả
+                //     overflow: 'hidden', // Ẩn nội dung dư thừa
+                //     whiteSpace: 'nowrap', // Không xuống dòng
+                //     textOverflow: 'ellipsis', // Thêm dấu "..." khi nội dung bị cắt
+                // }}
+            >
+                {username}
+            </span>
+        </div>
     );
 }
 

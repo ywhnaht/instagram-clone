@@ -4,7 +4,7 @@ import Header from "../Header";
 function DefaultGuest() {
     return ( 
         <div>
-            <Header />
+           <div> <Header /></div>
             <Outlet />
         </div>
      );

@@ -3,33 +3,50 @@ import StoryItem from './StoryItem';
 import { useRef, useState, useEffect } from 'react';
 import ScrollButton from '../ScrollButton';
 import { useNavigate } from 'react-router-dom';
+import { fetchStories } from '@/api/stories'; // Import API function
 
-function StoryList({ stories }) {
+function StoryList() {
     const scrollRef = useRef(null);
     const navigate = useNavigate();
 
+    const [stories, setStories] = useState([]);
     const [isLeftVisible, setIsLeftVisible] = useState(false);
     const [isRightVisible, setIsRightVisible] = useState(true);
 
+    // Fetch stories from API
+    useEffect(() => {
+        const loadStories = async () => {
+            try {
+                const data = await fetchStories(); // Sử dụng hàm API đã tách
+                setStories(data);
+            } catch (error) {
+                console.error('Error fetching stories:', error);
+            }
+        };
+        loadStories();
+    }, []);
+
+    // Update button visibility based on scroll position
     const updateButtonVisibility = () => {
         const scrollContainer = scrollRef.current;
         if (!scrollContainer) return;
-    
+
         const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
-    
+
+        // Handle edge cases with a small margin of error
         const isAtStart = scrollLeft <= 0;
-        const isAtEnd = scrollLeft + clientWidth >= scrollWidth - 1; // Dùng -1 để tránh sai số nhỏ
-    
+        const isAtEnd = Math.abs(scrollLeft + clientWidth - scrollWidth) <= 1;
+
         setIsLeftVisible(!isAtStart);
         setIsRightVisible(!isAtEnd);
     };
-    
 
+    // Scroll handling
     const handleScroll = (direction) => {
         const scrollContainer = scrollRef.current;
         if (!scrollContainer) return;
 
-        const scrollAmount = 315;
+        const scrollAmount = 315; // Adjust scroll step size
         const newScrollPosition =
             direction === 'left'
                 ? scrollContainer.scrollLeft - scrollAmount
@@ -43,19 +60,24 @@ function StoryList({ stories }) {
 
     useEffect(() => {
         const scrollContainer = scrollRef.current;
-        if (!scrollContainer) return;
 
-        scrollContainer.addEventListener('scroll', updateButtonVisibility);
+        const handleVisibility = () => updateButtonVisibility();
 
-        updateButtonVisibility();
+        const timeout = setTimeout(handleVisibility, 100);
 
+        scrollContainer.addEventListener('scroll', handleVisibility);
         return () => {
-            scrollContainer.removeEventListener(
-                'scroll',
-                updateButtonVisibility
-            );
+            clearTimeout(timeout);
+            scrollContainer.removeEventListener('scroll', handleVisibility);
         };
     }, []);
+
+    // Recheck visibility whenever stories are updated
+    useEffect(() => {
+        if (stories.length > 0) {
+            updateButtonVisibility();
+        }
+    }, [stories]);
 
     return (
         <div className="relative w-[38.5rem]">
@@ -67,14 +89,17 @@ function StoryList({ stories }) {
             )}
             <div
                 ref={scrollRef}
-                className="flex overflow-hidden py-3"
-                style={{ scrollBehavior: 'smooth' }}
+                className="flex overflow-hidden py-3 scroll-smooth"
             >
                 <HStack spacing={4}>
-                    {stories.map((story, index) => (
+                    {stories.map((story) => (
                         <StoryItem
-                            key={index}
-                            onClick={() => navigate(`/stories/${story.username}/${story.storyId}`)}
+                            key={story.id}
+                            onClick={() =>
+                                navigate(
+                                    `/stories/${story.username}/${story.id}`
+                                )
+                            }
                             {...story}
                         />
                     ))}

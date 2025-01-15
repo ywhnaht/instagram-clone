@@ -1,9 +1,9 @@
 import Header from '@/layouts/Header';
 import { ReactComponent as LockIcon } from '@/assets/icons/lock.svg';
-import InputBtn from '@/components/InputBox';
 import BlueButton from '@/components/BlueButton';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import InputBox from '@/components/InputBox';
 
 function ForgetPass() {
     const [username, setUsername] = useState('');
@@ -26,7 +26,7 @@ function ForgetPass() {
                     tài khoản.
                 </span>
                 <div className="my-1">
-                    <InputBtn
+                    <InputBox
                         value="Email, điện thoại hoặc tên người dùng"
                         type="text"
                         size="w-72 h-10 rounded-lg"
@@ -43,7 +43,7 @@ function ForgetPass() {
                     <div>HOẶC</div>
                 </div>
                 <div className="pb-5">
-                    <Link to="/register">
+                    <Link to="/accounts/register">
                         <span className="text-sm text-gray-600 font-semibold cursor-pointer hover:opacity-70">
                             Tạo tài khoản mới
                         </span>
@@ -53,7 +53,7 @@ function ForgetPass() {
                     <BlueButton
                         name="Quay lại đăng nhập"
                         size={`w-96 h-10 text-sm border rounded-none !bg-gray-50 text-gray-600 hover:opacity-70`}
-                        path="/login"
+                        path="/accounts/login"
                     />
                 </div>
             </div>

@@ -13,12 +13,12 @@ function Header() {
                     <BlueButton
                         name="Đăng nhập"
                         size="h-8 w-28 text-white"
-                        path="/login"
+                        path="/accounts/login"
                     />
                     <BlueButton
                         name="Đăng ký"
                         size="h-8 w-28 bg-white text-sky-500"
-                        path="/register"
+                        path="/accounts/register"
                     />
                 </div>
             </div>
